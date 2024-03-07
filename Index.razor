@@ -1,0 +1,48 @@
+﻿@page "/" 
+@page "/LiveHtml"
+
+<style>
+    #preview {
+        border: 2px solid #000;
+        margin-top: 10px;
+    }
+
+    .liveHtmlCursor {
+    }
+</style>
+
+<div style="position: fixed;top:0; right: 0; z-index:999; background-color:rgba(191, 202, 219,0.3); border-radius:15%; ">
+    <MudTooltip Text="Preview" Placement="Placement.Left" Color="Color.Secondary">
+        <MudToggleIconButton @bind-Toggled="@Preview"
+                             Icon="@Icons.Material.Filled.Airplay" Color="@Color.Error" Title="Off"
+                             ToggledIcon="@Icons.Material.Filled.ArtTrack" ToggledColor="@Color.Success" ToggledTitle="On" />
+    </MudTooltip>
+</div>
+<div style="display:flex">
+
+@if (!Preview)
+{ 
+    <div style="width:50%;background-color:white;"> 
+        <MudTextField @bind-Value="TextValue"
+                      Class="liveHtmlCursor"
+                      Label="Raw Html Code"
+                      Variant="Variant.Outlined"
+                      AutoGrow="true"
+                      Immediate="true"
+                      MaxLines="50" />
+</div>
+    
+}
+<div style="width:50%">
+@if (!string.IsNullOrWhiteSpace(TextValue))
+{
+    <div id="preview">
+        @((MarkupString)TextValue)
+    </div>
+}
+</div>
+</div>
+@code {
+    public string TextValue { get; set; } = "";
+    public bool Preview { get; set; }
+}
